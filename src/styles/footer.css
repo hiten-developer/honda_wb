@@ -1,0 +1,186 @@
+html{
+  scroll-behavior: smooth;
+}
+.honda-footer {
+  background: #000;
+  color: #fff;
+  padding: 50px 0 30px;
+  margin-top: 60px;
+  border-top: 3px solid #e40514;
+}
+
+.footer-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-main-heading {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #e40514;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 30px;
+}
+
+.footer-column,
+.footer-columns {
+  margin-bottom: 20px;
+}
+
+
+.footer-column-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e40514;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-column-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: #e40514;
+}
+
+
+.footer-bikes-list,
+.footer-links {
+  list-style: none;
+}
+
+.bike-link,
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
+  width: 80px;
+  transition: 0.3s;
+}
+
+.bike-link:hover,
+.footer-links a:hover {
+  color: #fff;
+  padding-left: 5px;
+}
+
+.more-link {
+  color: #e40514;
+  font-weight: 600;
+}
+
+
+.social-icons-footer {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #222;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #444;
+  transition: 0.3s;
+}
+
+.social-link:hover {
+  background: #e40514;
+  border-color: #e40514;
+}
+
+
+.footer-contact p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+.footer-contact svg {
+  color: #e40514;
+}
+
+
+.footer-bottom {
+  text-align: center;
+}
+
+.copyright-section {
+  color: #ccc;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.company-name {
+  color: #e40514;
+  font-weight: 600;
+}
+
+
+@media (max-width: 1024px) {
+  .footer-main {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .footer-columns {
+    display: none;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .footer-column:nth-child(1) {
+    order: 1;
+  }
+
+  .footer-column:nth-child(4) {
+    order: 2;
+  }
+
+  .footer-column:nth-child(2) {
+    order: 3;
+  }
+
+  .footer-column:nth-child(5) {
+    order: 4;
+  }
+  @media (max-width: 768px) {
+  .footer-main-heading {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+}

@@ -1,0 +1,278 @@
+ html{
+  scroll-behavior: smooth;
+}
+ .pick-bike-simple {
+  padding: 60px 20px;
+  background: #fff;
+}
+.mobile-dropdown-header{
+  display: none;
+}
+
+.simple-title {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.simple-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.bike-names-list {
+  flex: 1;
+  border-right: 1px solid #eee;
+  padding-right: 20px;
+}
+
+.bike-names-list h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.names-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.name-item {
+  padding: 12px;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.name-item:hover {
+  border-color: #ccc;
+  background: #f9f9f9;
+}
+
+.name-item.active {
+  background: #e40514;
+  color: white;
+  border-color: #e40514;
+}
+
+.name-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.name-item p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.name-item.active p {
+  color: #ddd;
+}
+
+.name-item .price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e40514;
+}
+
+.name-item.active .price {
+  color: white;
+}
+
+
+.bike-details-box {
+  flex: 2;
+}
+
+.bike-details-box h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.details-box {
+  display: flex;
+  gap: 30px;
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.bike-image-box {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  border: 1px solid #ddd;
+}
+
+.bike-image-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.bike-info-box {
+  flex: 1;
+}
+
+.bike-info-box h2 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.bike-info-box .model {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.price-big {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e40514;
+  margin-bottom: 20px;
+}
+
+.specs-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border: 1px solid #eee;
+}
+
+.spec {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.spec:last-child {
+  border-bottom: none;
+}
+
+.spec span:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.spec span:last-child {
+  color: #666;
+}
+
+.buttons-box {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-price,
+.btn-details {
+  padding: 14px 25px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.btn-price {
+  background: #e40514;
+  color: white;
+}
+
+.btn-price:hover {
+  background: #ff2b2b;
+}
+
+.btn-details {
+  background: white;
+  color: #e40514;
+  border: 2px solid #e40514;
+}
+
+.btn-details:hover {
+  background: #e40514;
+  color: white;
+}
+
+
+@media (max-width: 768px) {
+
+  .simple-container {
+    flex-direction: column;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    background: #fff;
+    margin-bottom: 10px;
+  }
+
+  .mobile-dropdown-header .arrow {
+    font-size: 14px;
+  }
+
+  .names-scroll {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .names-scroll.open {
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  .bike-names-list {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .details-box {
+    flex-direction: column;
+  }
+
+  .buttons-box {
+    flex-direction: column;
+  }
+
+  .btn-price,
+  .btn-details {
+    width: 100%;
+  }
+}

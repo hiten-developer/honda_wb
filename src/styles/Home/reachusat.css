@@ -1,0 +1,125 @@
+
+html{
+  scroll-behavior: smooth;
+}
+.reach-us-section {
+  padding: 60px 20px;
+  background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+  border-top: 1px solid #eee;
+}
+
+.reach-us-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: #e40514;
+}
+
+.contact-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  border-color: #e40514;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e40514;
+  margin-bottom: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.icon {
+  color: #e40514;
+  font-size: 20px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.business-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.address,
+.city {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+
+.contact,
+.email {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.contact span,
+.email span {
+  font-weight: 400;
+  color: #666;
+}
