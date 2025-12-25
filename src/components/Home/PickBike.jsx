@@ -1,17 +1,5 @@
-
-
-      
-        
-        
-          
-            
-              
-                
-              
-        
-
-import React, { useState } from 'react';
-import bikesData from '../../data/bikesData';
+import React, { useState } from "react";
+import bikesData from "../../data/bikesData";
 
 const PickBike = () => {
   const [selectedBike, setSelectedBike] = useState(bikesData[0]);
@@ -27,9 +15,7 @@ const PickBike = () => {
       <h2 className="simple-title">Pick a Bike to Start</h2>
 
       <div className="simple-container">
-
         <div className="bike-names-list">
-
           <h3 className="desktop-only">All Bikes</h3>
 
           <div
@@ -37,14 +23,16 @@ const PickBike = () => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <span>{selectedBike.name}</span>
-            <span className="arrow">{dropdownOpen ? '▲' : '▼'}</span>
+            <span className="arrow">{dropdownOpen ? "▲" : "▼"}</span>
           </div>
 
-          <div className={`names-scroll ${dropdownOpen ? 'open' : ''}`}>
+          <div className={`names-scroll ${dropdownOpen ? "open" : ""}`}>
             {bikesData.map((bike) => (
               <div
                 key={bike.id}
-                className={`name-item ${selectedBike.id === bike.id ? 'active' : ''}`}
+                className={`name-item ${
+                  selectedBike.id === bike.id ? "active" : ""
+                }`}
                 onClick={() => handleSelectBike(bike)}
               >
                 <h4>{bike.name}</h4>
@@ -90,7 +78,6 @@ const PickBike = () => {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
