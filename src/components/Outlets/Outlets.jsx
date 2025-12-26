@@ -122,4 +122,4 @@ const Outlets = () => {
   );
 };
 
-export default Outlets;x
+export default Outlets;
