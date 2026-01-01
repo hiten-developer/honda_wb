@@ -1,0 +1,222 @@
+/* Brochures.css - Simplified Version */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.brochures-container {
+  font-family: 'Arial', sans-serif;
+  color: #000;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles */
+.brochures-header-wrapper {
+  width: 100%;
+  background: #fff;
+  border-bottom: 2px solid #ff0000;
+  margin-bottom: 40px;
+}
+
+.brochures-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.brochures-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #000;
+  margin-top: 60px;
+}
+
+.red-text {
+  color: #ff0000;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: #333;
+  font-style: italic;
+}
+
+/* Main Content */
+.brochures-main {
+  flex: 1;
+  padding: 0 20px 40px;
+}
+
+/* Brochures List */
+.brochures-list-section {
+  margin-bottom: 40px;
+}
+
+.brochures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Brochure Item - One per row */
+.brochure-item {
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.brochure-item:hover {
+  border-color: #ff0000;
+  transform: translateX(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* PDF Icon */
+.pdf-icon {
+  color: #ff0000;
+  font-size: 2.5rem;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Brochure Content */
+.brochure-content {
+  flex: 1;
+}
+
+.brochure-content h3 {
+  color: #000;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.brochure-meta {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.category {
+  background: #f0f0f0;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.date {
+  font-style: italic;
+}
+
+/* Brochure Action */
+.brochure-action {
+  min-width: 150px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid #000;
+  justify-content: center;
+}
+
+.download-btn:hover {
+  background: #ff0000;
+  border-color: #ff0000;
+}
+
+/* Note Section */
+.note-section {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.note-section p {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.note-section strong {
+  color: #ff0000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brochures-container {
+    padding: 0;
+  }
+  
+  .brochures-header {
+    padding: 30px 15px;
+  }
+  
+  .brochures-header h1 {
+    font-size: 2rem;
+    margin-top: 40px;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+  
+  .brochures-main {
+    padding: 0 15px 30px;
+  }
+  
+  .brochure-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .brochure-content {
+    text-align: center;
+  }
+  
+  .brochure-meta {
+    justify-content: center;
+  }
+  
+  .brochure-action {
+    width: 100%;
+  }
+  
+  .download-btn {
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .note-section {
+    padding: 15px;
+  }
+}

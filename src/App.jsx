@@ -1,13 +1,17 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import "./styles/footer.css"
+import "./styles/footer.css";
 import ScrollToTop from "./components/ScrolltoTop";
 import Home from "./pages/Home";
 import Bikes from "./pages/NewBikes";
 import BikeDetails from "./pages/BikeDetailsPage";
 import Outlets from "./components/Outlets/Outlets";
+import Service from "./components/Service_Component/Service";
 import AboutUs from "./components/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
+import Finance from "./components/Finance/Finance";
+import Brochures from "./components/Brochures/Brochures";
+import Insurance from "./components/Insurance/Insurance";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const App = () => {
@@ -45,12 +49,23 @@ const App = () => {
         </>
       ),
     },
-     {
+    {
       path: "/outlets",
       element: (
         <>
           <Navbar />
           <Outlets />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/service",
+      element: (
+        <>
+          <Navbar />
+          <Service />
           <Footer />
           <ScrollToTop />
         </>
@@ -77,9 +92,42 @@ const App = () => {
           <ScrollToTop />
         </>
       ),
-    }
+    },
+    {
+      path: "/finance",
+      element: (
+        <>
+          <Navbar />
+          <Finance />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/brochures",
+      element: (
+        <>
+          <Navbar />
+          <Brochures />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/insurance",
+      element: (
+        <>
+          <Navbar />
+          <Insurance />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
   ]);
-  
+
   return (
     <>
       <RouterProvider router={router} />
