@@ -1,6 +1,29 @@
+
+  
+
+    
+
+
+    
+    
+
+
+
+          
+                
+
+                
+
+                
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import "../../styles/Insurance/Insurance.css";
-import { FaShieldAlt, FaPhone, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
+import { FaShieldAlt } from "react-icons/fa";
+import { getAllBikes } from "../../services/api";
 
 const Insurance = () => {
   const [formData, setFormData] = useState({
@@ -12,51 +35,43 @@ const Insurance = () => {
     existingPolicy: "",
     message: ""
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  // Insurance department data - This will come from API
-  const [insuranceDept, setInsuranceDept] = useState({
-    phone: "+91 98765 43210",
-    claimsPhone: "+91 98765 43211",
-    email: "insurance@madhikahonda.com",
-    claimsEmail: "claims@madhikahonda.com",
-    workingHours: "Monday - Saturday: 9AM - 7PM",
-    sundayHours: "Sunday: 10AM - 5PM"
-  });
 
-  // In real app, you would fetch this from API
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [bikeModels, setBikeModels] = useState([]);
+
   useEffect(() => {
-    // Example: Fetch insurance department data
-    // fetch('/api/insurance-department')
-    //   .then(res => res.json())
-    //   .then(data => setInsuranceDept(data));
-    
-    // For now, using static data
-    setInsuranceDept({
-      phone: "+91 98765 43210",
-      claimsPhone: "+91 98765 43211",
-      email: "insurance@madhikahonda.com",
-      claimsEmail: "claims@madhikahonda.com",
-      workingHours: "Monday - Saturday: 9AM - 7PM",
-      sundayHours: "Sunday: 10AM - 5PM"
-    });
+    const fetchBikes = async () => {
+      try {
+        const bikes = await getAllBikes();
+        const models = bikes.map((bike) => bike.model_name || "hiten");
+        setBikeModels(models);
+      } catch (err) {
+        console.error(err);
+        setBikeModels([]);
+      }
+    };
+
+    fetchBikes();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "insuranceType" && value === "new"
+        ? { existingPolicy: "" }
+        : {})
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
-    
-    // In real app, send data to API
+
     console.log("Insurance form submitted:", formData);
-    
+
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -73,34 +88,33 @@ const Insurance = () => {
 
   return (
     <div className="insurance-container">
-      {/* Header Section */}
       <div className="insurance-header-wrapper">
         <div className="insurance-header">
           <h1>
             Vehicle <span className="red-text">Insurance</span>
           </h1>
-          <p className="tagline">Secure your vehicle with comprehensive insurance plans</p>
+          <p className="tagline">
+            Secure your vehicle with comprehensive insurance plans
+          </p>
         </div>
       </div>
 
-      {/* Main Content */}
       <main className="insurance-main">
-        {/* Introduction */}
         <section className="intro-section">
           <div className="intro-content">
             <FaShieldAlt className="intro-icon" />
             <h2>Complete Insurance Solutions</h2>
             <p>
-              Protect your Honda vehicle with our comprehensive insurance plans. 
-              We offer third-party and comprehensive coverage with fast claim settlement.
+              Protect your Honda vehicle with our comprehensive insurance plans.
+              We offer third-party and comprehensive coverage with fast claim
+              settlement.
             </p>
           </div>
         </section>
 
-        {/* Insurance Inquiry Form */}
         <section className="inquiry-section">
           <h2>Get Insurance Quote</h2>
-          
+
           {isSubmitted ? (
             <div className="success-message">
               <div className="success-icon">✓</div>
@@ -121,7 +135,7 @@ const Insurance = () => {
                     required
                   />
                 </div>
-                
+
                 <div className="form-group">
                   <label>Phone Number *</label>
                   <input
@@ -147,7 +161,7 @@ const Insurance = () => {
                     required
                   />
                 </div>
-                
+
                 <div className="form-group">
                   <label>Vehicle Model *</label>
                   <select
@@ -157,13 +171,11 @@ const Insurance = () => {
                     required
                   >
                     <option value="">Select Vehicle</option>
-                    <option value="Honda Activa">Honda Activa</option>
-                    <option value="Honda Dio">Honda Dio</option>
-                    <option value="Honda CB Shine">Honda CB Shine</option>
-                    <option value="Honda SP 125">Honda SP 125</option>
-                    <option value="Honda Hornet">Honda Hornet</option>
-                    <option value="Honda X-Blade">Honda X-Blade</option>
-                    <option value="Other">Other Model</option>
+                    {bikeModels.map((model, index) => (
+                      <option key={index} value={model}>
+                        {model}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -183,17 +195,20 @@ const Insurance = () => {
                     <option value="claim">Claim Assistance</option>
                   </select>
                 </div>
-                
-                <div className="form-group">
-                  <label>Existing Policy Number</label>
-                  <input
-                    type="text"
-                    name="existingPolicy"
-                    value={formData.existingPolicy}
-                    onChange={handleChange}
-                    placeholder="If renewal/transfer"
-                  />
-                </div>
+
+                {formData.insuranceType !== "new" && (
+                  <div className="form-group">
+                    <label>Existing Policy Number *</label>
+                    <input
+                      type="text"
+                      name="existingPolicy"
+                      value={formData.existingPolicy}
+                      onChange={handleChange}
+                      placeholder="Enter policy number"
+                      required
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
@@ -212,45 +227,6 @@ const Insurance = () => {
               </button>
             </form>
           )}
-        </section>
-
-        {/* Contact Info - Fixed Layout */}
-        <section className="contact-section">
-          <h2>Insurance Department</h2>
-          <div className="contact-info">
-            <div className="contact-item">
-              <div className="contact-icon">
-                <FaPhone />
-              </div>
-              <div className="contact-details">
-                <h3>Call for Assistance</h3>
-                <p><strong>Insurance:</strong> {insuranceDept.phone}</p>
-                <p><strong>Claims:</strong> {insuranceDept.claimsPhone}</p>
-              </div>
-            </div>
-
-            <div className="contact-item">
-              <div className="contact-icon">
-                <FaEnvelope />
-              </div>
-              <div className="contact-details">
-                <h3>Email Us</h3>
-                <p><strong>General:</strong> {insuranceDept.email}</p>
-                <p><strong>Claims:</strong> {insuranceDept.claimsEmail}</p>
-              </div>
-            </div>
-
-            <div className="contact-item">
-              <div className="contact-icon">
-                <FaCalendarAlt />
-              </div>
-              <div className="contact-details">
-                <h3>Working Hours</h3>
-                <p>{insuranceDept.workingHours}</p>
-                <p>{insuranceDept.sundayHours}</p>
-              </div>
-            </div>
-          </div>
         </section>
       </main>
     </div>

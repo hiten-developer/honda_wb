@@ -12,6 +12,9 @@ import ContactUs from "./components/ContactUs/ContactUs";
 import Finance from "./components/Finance/Finance";
 import Brochures from "./components/Brochures/Brochures";
 import Insurance from "./components/Insurance/Insurance";
+import FAQ from "./components/Faq/FAQ";
+import Gallery from "./components/Gallery/Gallery";
+import Exchange from "./components/Exchange/Exchange";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const App = () => {
@@ -121,6 +124,39 @@ const App = () => {
         <>
           <Navbar />
           <Insurance />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/faq",
+      element: (
+        <>
+          <Navbar />
+          <FAQ />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/gallery",
+      element: (
+        <>
+          <Navbar />
+          <Gallery />
+          <Footer />
+          <ScrollToTop />
+        </>
+      ),
+    },
+    {
+      path: "/exchange",
+      element: (
+        <>
+          <Navbar />
+          <Exchange />
           <Footer />
           <ScrollToTop />
         </>

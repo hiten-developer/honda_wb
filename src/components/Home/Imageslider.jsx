@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 import { useState, useEffect } from "react";
 
 const Imageslider = ({ images, autoSlide = true, slideInterval = 3000 }) => {
@@ -16,9 +7,7 @@ const Imageslider = ({ images, autoSlide = true, slideInterval = 3000 }) => {
     if (!autoSlide) return;
 
     const interval = setInterval(() => {
-      setCurrentImage((prev) =>
-        prev === images.length - 1 ? 0 : prev + 1
-      );
+      setCurrentImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }, slideInterval);
 
     return () => clearInterval(interval);

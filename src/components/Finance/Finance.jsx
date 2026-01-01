@@ -1,56 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Finance/Finance.css";
+import { getAllBikes } from "../../services/api";
 
 const Finance = () => {
-  // State for form
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    vehicleModel: "Honda Activa",
-    message: ""
+    vehicleModel: "",
+    message: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [bikeModels, setBikeModels] = useState([]);
 
-  // Handle input changes
+  useEffect(() => {
+    const fetchBikes = async () => {
+      try {
+        const bikes = await getAllBikes();
+        const models = bikes.map((bike) => bike.model_name || "hiten");
+        setBikeModels(models);
+
+        if (models.length > 0) {
+          setFormData((prev) => ({
+            ...prev,
+            vehicleModel: models[0],
+          }));
+        }
+      } catch (error) {
+        console.error(error);
+        setBikeModels([]);
+      }
+    };
+
+    fetchBikes();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
+
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
         name: "",
         phone: "",
         email: "",
-        vehicleModel: "Honda Activa",
-        message: ""
+        vehicleModel: bikeModels[0] || "",
+        message: "",
       });
     }, 3000);
   };
 
-  // Loan options
   const loanOptions = [
     { amount: "₹50,000 - ₹1,00,000", rate: "8.5%", tenure: "1-3 years" },
     { amount: "₹1,00,000 - ₹2,00,000", rate: "8.0%", tenure: "1-5 years" },
     { amount: "₹2,00,000 - ₹5,00,000", rate: "7.5%", tenure: "1-7 years" },
-    { amount: "₹5,00,000 - ₹10,00,000", rate: "7.0%", tenure: "1-7 years" }
+    { amount: "₹5,00,000 - ₹10,00,000", rate: "7.0%", tenure: "1-7 years" },
   ];
 
   return (
     <div className="finance-container">
-      {/* Header Section */}
       <div className="finance-header-wrapper">
         <div className="finance-header">
           <h1>
@@ -60,18 +78,15 @@ const Finance = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <main className="finance-main">
-        {/* Introduction */}
         <section className="intro-section">
           <h2>Simple & Affordable Financing</h2>
           <p>
-            Get the best finance deals for your Honda vehicle with easy EMI options, 
-            low interest rates, and quick approval process.
+            Get the best finance deals for your Honda vehicle with easy EMI
+            options, low interest rates, and quick approval process.
           </p>
         </section>
 
-        {/* Loan Options */}
         <section className="loan-section">
           <h2>Our Loan Options</h2>
           <div className="loan-grid">
@@ -79,18 +94,21 @@ const Finance = () => {
               <div key={index} className="loan-card">
                 <h3>{loan.amount}</h3>
                 <div className="loan-details">
-                  <p><strong>Rate:</strong> {loan.rate}</p>
-                  <p><strong>Tenure:</strong> {loan.tenure}</p>
+                  <p>
+                    <strong>Rate:</strong> {loan.rate}
+                  </p>
+                  <p>
+                    <strong>Tenure:</strong> {loan.tenure}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Finance Form */}
         <section className="form-section">
           <h2>Get Finance Assistance</h2>
-          
+
           {isSubmitted ? (
             <div className="success-message">
               <div className="success-icon">✓</div>
@@ -142,13 +160,11 @@ const Finance = () => {
                   value={formData.vehicleModel}
                   onChange={handleChange}
                 >
-                  <option value="Honda Activa">Honda Activa</option>
-                  <option value="Honda Dio">Honda Dio</option>
-                  <option value="Honda CB Shine">Honda CB Shine</option>
-                  <option value="Honda SP 125">Honda SP 125</option>
-                  <option value="Honda Hornet">Honda Hornet</option>
-                  <option value="Honda X-Blade">Honda X-Blade</option>
-                  <option value="Other">Other Model</option>
+                  {bikeModels.map((model, index) => (
+                    <option key={index} value={model}>
+                      {model}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -170,13 +186,18 @@ const Finance = () => {
           )}
         </section>
 
-        {/* Contact Info */}
         <section className="contact-section">
           <h2>Finance Department</h2>
           <div className="contact-info">
-            <p><strong>Phone:</strong> +91 98765 43210</p>
-            <p><strong>Email:</strong> finance@madhikahonda.com</p>
-            <p><strong>Working Hours:</strong> Mon-Sat: 9AM-7PM</p>
+            <p>
+              <strong>Phone:</strong> +91 98765 43210
+            </p>
+            <p>
+              <strong>Email:</strong> finance@madhikahonda.com
+            </p>
+            <p>
+              <strong>Working Hours:</strong> Mon-Sat: 9AM-7PM
+            </p>
           </div>
         </section>
       </main>

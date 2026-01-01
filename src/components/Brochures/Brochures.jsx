@@ -1,122 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Brochures/Brochures.css";
 import { FaDownload, FaFilePdf } from "react-icons/fa";
+import { getBrochures, API_BASE_URL } from "../../services/api";
 
 const Brochures = () => {
-  // Sample brochures data - later will come from API
-  const brochuresData = [
-    {
-      id: 1,
-      title: "Honda Activa 6G Brochure",
-      category: "Scooter",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 2,
-      title: "Honda Dio Brochure",
-      category: "Scooter",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 3,
-      title: "Honda CB Shine Brochure",
-      category: "Motorcycle",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 4,
-      title: "Honda SP 125 Brochure",
-      category: "Motorcycle",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 5,
-      title: "Honda Hornet Brochure",
-      category: "Motorcycle",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 6,
-      title: "Honda X-Blade Brochure",
-      category: "Motorcycle",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 7,
-      title: "Service Center Brochure",
-      category: "Service",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    },
-    {
-      id: 8,
-      title: "Finance Options Brochure",
-      category: "Finance",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      date: "2023"
-    }
-  ];
+  const [brochuresData, setBrochuresData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBrochures = async () => {
+      try {
+        const data = await getBrochures();
+
+        const formatted = data.map((item) => ({
+          id: item._id,
+          title: item.model_name ? `${item.model_name} Brochure` : "hiten",
+          category: "Bike",
+          pdfUrl: item.image2Key
+            ? `${API_BASE_URL}/${item.image2Key}`
+            : "hiten",
+          date: "2025",
+        }));
+
+        setBrochuresData(formatted);
+      } catch (err) {
+        console.error(err);
+        setBrochuresData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrochures();
+  }, []);
 
   return (
     <div className="brochures-container">
-      {/* Header Section */}
       <div className="brochures-header-wrapper">
         <div className="brochures-header">
           <h1>
             Download <span className="red-text">Brochures</span>
           </h1>
-          <p className="tagline">Get detailed information about our products and services</p>
+          <p className="tagline">
+            Get detailed information about our products and services
+          </p>
         </div>
       </div>
 
-      {/* Main Content */}
       <main className="brochures-main">
-        {/* Brochures List - One per row */}
         <section className="brochures-list-section">
           <div className="brochures-list">
-            {brochuresData.map(brochure => (
-              <div key={brochure.id} className="brochure-item">
-                {/* PDF Icon */}
-                <div className="pdf-icon">
-                  <FaFilePdf />
-                </div>
+            {loading ? (
+              <p style={{ textAlign: "center" }}>Loading brochures...</p>
+            ) : (
+              brochuresData.map((brochure) => (
+                <div key={brochure.id} className="brochure-item">
+                  <div className="pdf-icon">
+                    <FaFilePdf />
+                  </div>
 
-                {/* Brochure Details */}
-                <div className="brochure-content">
-                  <h3>{brochure.title}</h3>
-                  <div className="brochure-meta">
-                    <span className="category">{brochure.category}</span>
-                    <span className="date">{brochure.date}</span>
+                  <div className="brochure-content">
+                    <h3>{brochure.title}</h3>
+                    <div className="brochure-meta">
+                      <span className="category">{brochure.category}</span>
+                      <span className="date">{brochure.date}</span>
+                    </div>
+                  </div>
+
+                  <div className="brochure-action">
+                    {brochure.pdfUrl !== "hiten" ? (
+                      <a
+                        href={brochure.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="download-btn"
+                      >
+                        <FaDownload /> Download
+                      </a>
+                    ) : (
+                      <span className="download-btn disabled">
+                        Not Available
+                      </span>
+                    )}
                   </div>
                 </div>
-
-                {/* Download Button */}
-                <div className="brochure-action">
-                  <a 
-                    href={brochure.pdfUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="download-btn"
-                  >
-                    <FaDownload /> Download
-                  </a>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 
-        {/* Note Section */}
         <section className="note-section">
           <p>
-            <strong>Note:</strong> All brochures are in PDF format. 
-            You can view them in your browser or download for future reference.
+            <strong>Note:</strong> All brochures are in PDF format. You can view
+            them in your browser or download for future reference.
           </p>
         </section>
       </main>

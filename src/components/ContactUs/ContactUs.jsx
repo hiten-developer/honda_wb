@@ -40,22 +40,21 @@
 //   };
 
 //   return (
-//     <div className="contact-us-container">
-//       <div className="contact-header">
-//         <h1>
-//           Contact <span className="red-text">Madhika Honda</span>
-//         </h1>
-//         <p className="tagline">We're here to help you. Send us a message!</p>
+//     <div className="contact-container">
+//       <div className="contact-header-wrapper">
+//         <div className="contact-header">
+//           <h1>
+//             Contact <span className="red-text">Madhika Honda</span>
+//           </h1>
+//           <p className="tagline">Get in touch with our team</p>
+//         </div>
 //       </div>
 
-//       {/* Main Form Section */}
 //       <div className="contact-main">
 //         <div className="contact-form-wrapper">
-//           {/* Contact Form - Always visible */}
 //           <form className="contact-form" onSubmit={handleSubmit}>
 //             <h2>Get In Touch</h2>
 
-//             {/* Name Field */}
 //             <div className="form-group">
 //               <label htmlFor="name">Full Name *</label>
 //               <input
@@ -69,7 +68,6 @@
 //               />
 //             </div>
 
-//             {/* Email Field */}
 //             <div className="form-group">
 //               <label htmlFor="email">Email Address *</label>
 //               <input
@@ -83,7 +81,6 @@
 //               />
 //             </div>
 
-//             {/* Phone Field */}
 //             <div className="form-group">
 //               <label htmlFor="phone">Phone Number *</label>
 //               <input
@@ -97,7 +94,6 @@
 //               />
 //             </div>
 
-//             {/* Subject Dropdown */}
 //             <div className="form-group">
 //               <label htmlFor="subject">Subject</label>
 //               <select
@@ -113,7 +109,6 @@
 //               </select>
 //             </div>
 
-//             {/* Message Field */}
 //             <div className="form-group">
 //               <label htmlFor="message">Your Message *</label>
 //               <textarea
@@ -127,14 +122,12 @@
 //               ></textarea>
 //             </div>
 
-//             {/* Submit Button */}
 //             <button type="submit" className="submit-btn">
 //               Send Message
 //             </button>
 
 //             <p className="form-note">All fields marked with * are required</p>
 
-//             {/* Small Success Message Below Form */}
 //             {isSubmitted && (
 //               <div className="small-success-message">
 //                 <div className="success-check">✓</div>
@@ -144,32 +137,21 @@
 //           </form>
 //         </div>
 
-//         {/* Simple Contact Info with Icons in Red Circles */}
-//         <div className="simple-contact-info">
-//           <h3>Contact Information</h3>
-//           <div className="contact-row">
-//             <div className="contact-item">
-//               <p>
-//                 <strong>Address:</strong> 123 Auto Street, City
-//               </p>
-//             </div>
-//             <div className="contact-item">
-//               <p>
-//                 <strong>Phone:</strong> +91 98765 43210
-//               </p>
-//             </div>
-//           </div>
-//           <div className="contact-row">
-//             <div className="contact-item">
-//               <p>
-//                 <strong>Email:</strong> contact@madhikahonda.com
-//               </p>
-//             </div>
-//             <div className="contact-item">
-//               <p>
-//                 <strong>Hours:</strong> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM
-//               </p>
-//             </div>
+//         <div className="contact-info-section">
+//           <h2>Contact Information</h2>
+//           <div className="contact-info">
+//             <p>
+//               <strong>Address:</strong> 123 Auto Street, City
+//             </p>
+//             <p>
+//               <strong>Phone:</strong> +91 98765 43210
+//             </p>
+//             <p>
+//               <strong>Email:</strong> contact@madhikahonda.com
+//             </p>
+//             <p>
+//               <strong>Hours:</strong> Mon-Sat: 9AM-8PM, Sun: 10AM-6PM
+//             </p>
 //           </div>
 //         </div>
 //       </div>
@@ -178,58 +160,64 @@
 // };
 
 // export default ContactUs;
+
+
 import React, { useState } from "react";
 import "../../styles/ContactUs/ContactUs.css";
+import { sendContactMessage } from "../../services/api";
 
 const ContactUs = () => {
-  // State to store form data
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
-    subject: "general"
+    subject: "general",
   });
 
-  // State to track if form is submitted
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Show success message
-    setIsSubmitted(true);
-    
-    // In real app, here you would send data to server
-    console.log("Form Data:", formData);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      // Clear form
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await sendContactMessage(formData);
+
+      setIsSubmitted(true);
       setFormData({
         name: "",
         email: "",
         phone: "",
         message: "",
-        subject: "general"
+        subject: "general",
       });
-    }, 3000);
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="contact-container">
-      {/* Header Section - Same as AboutUs */}
       <div className="contact-header-wrapper">
         <div className="contact-header">
           <h1>
@@ -239,14 +227,11 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Main Form Section */}
       <div className="contact-main">
         <div className="contact-form-wrapper">
-          {/* Contact Form - Always visible */}
           <form className="contact-form" onSubmit={handleSubmit}>
             <h2>Get In Touch</h2>
-            
-            {/* Name Field */}
+
             <div className="form-group">
               <label htmlFor="name">Full Name *</label>
               <input
@@ -260,7 +245,6 @@ const ContactUs = () => {
               />
             </div>
 
-            {/* Email Field */}
             <div className="form-group">
               <label htmlFor="email">Email Address *</label>
               <input
@@ -274,7 +258,6 @@ const ContactUs = () => {
               />
             </div>
 
-            {/* Phone Field */}
             <div className="form-group">
               <label htmlFor="phone">Phone Number *</label>
               <input
@@ -288,7 +271,6 @@ const ContactUs = () => {
               />
             </div>
 
-            {/* Subject Dropdown */}
             <div className="form-group">
               <label htmlFor="subject">Subject</label>
               <select
@@ -304,7 +286,6 @@ const ContactUs = () => {
               </select>
             </div>
 
-            {/* Message Field */}
             <div className="form-group">
               <label htmlFor="message">Your Message *</label>
               <textarea
@@ -318,26 +299,29 @@ const ContactUs = () => {
               ></textarea>
             </div>
 
-            {/* Submit Button */}
-            <button type="submit" className="submit-btn">
-              Send Message
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? "Sending..." : "Send Message"}
             </button>
 
             <p className="form-note">
               All fields marked with * are required
             </p>
 
-            {/* Small Success Message Below Form */}
             {isSubmitted && (
               <div className="small-success-message">
                 <div className="success-check">✓</div>
-                <span className="success-text">Message sent successfully!</span>
+                <span className="success-text">
+                  Message sent successfully!
+                </span>
               </div>
+            )}
+
+            {error && (
+              <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
             )}
           </form>
         </div>
 
-        {/* Simple Contact Info WITHOUT icon boxes */}
         <div className="contact-info-section">
           <h2>Contact Information</h2>
           <div className="contact-info">

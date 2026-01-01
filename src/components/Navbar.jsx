@@ -1,14 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { NavLink, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../styles/nav.css";
 
 const Navbar = () => {
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  
+  const submenuRef = useRef(null);
+  const moreButtonRef = useRef(null);
 
   const submenuItems = [
     { name: "Finance", link: "/finance" },
@@ -36,9 +52,63 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuOpen && !event.target.closest('.nav-menu') && !event.target.closest('.hamburger')) {
+        closeMenu();
+      }
+      
+      if (moreOpen) {
+        const isMoreButton = moreButtonRef.current && moreButtonRef.current.contains(event.target);
+        const isSubmenu = submenuRef.current && submenuRef.current.contains(event.target);
+        
+        if (!isMoreButton && !isSubmenu) {
+          setMoreOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [menuOpen, moreOpen]);
+
   const closeMenu = () => {
     setMenuOpen(false);
     setMoreOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    if (!menuOpen) {
+      setMoreOpen(false);
+    }
+  };
+
+  const toggleMoreMenu = (e) => {
+    e.stopPropagation();
+    setMoreOpen(!moreOpen);
+  };
+
+  const handleMouseEnter = () => {
+    if (window.innerWidth > 768) {
+      setMoreOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth > 768) {
+      setMoreOpen(false);
+    }
+  };
+
+  const handleSubmenuClick = () => {
+    setMoreOpen(false);
+    setMenuOpen(false);
   };
 
   return (
@@ -58,13 +128,13 @@ const Navbar = () => {
             </div>
             <div className="madhika-logo">
               <NavLink to="/" onClick={closeMenu}>
-                <img src="images/madhika_logo.png" alt="" />
+                <img src="images/madhika_logo.png" alt="Madhika Logo" />
               </NavLink>
             </div>
           </div>
 
-          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-            ☰
+          <div className="hamburger" onClick={toggleMenu}>
+            {menuOpen ? "✕" : "☰"}
           </div>
 
           <div className={`nav-menu ${menuOpen ? "mobile-open" : ""}`}>
@@ -111,17 +181,31 @@ const Navbar = () => {
               Contact Us
             </NavLink>
 
-            <div className="nav-submenu-container">
+            <div 
+              className="nav-submenu-container" 
+              ref={submenuRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               <span
-                className={`more-btn ${isMoreActive ? "nav-link-active" : ""}`}
-                onClick={() => setMoreOpen(!moreOpen)}
+                ref={moreButtonRef}
+                className={`more-btn ${isMoreActive ? "nav-link-active" : ""} ${moreOpen ? "more-open" : ""}`}
+                onClick={toggleMoreMenu}
               >
                 More
+                <span className="mobile-arrow">▼</span>
               </span>
 
               <div className={`submenu ${moreOpen ? "show-submenu" : ""}`}>
                 {submenuItems.map((item, index) => (
-                  <NavLink key={index} to={item.link} onClick={closeMenu}>
+                  <NavLink 
+                    key={index} 
+                    to={item.link} 
+                    onClick={handleSubmenuClick}
+                    className={({ isActive }) => 
+                      isActive ? "nav-link-active" : ""
+                    }
+                  >
                     {item.name}
                   </NavLink>
                 ))}

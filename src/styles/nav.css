@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@ body {
   overflow-x: hidden;
   font-family: Arial, sans-serif;
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .simple-navbar {
@@ -35,8 +37,11 @@ body {
 .simple-navbar.show {
   transform: translateY(0);
 }
-.nav-logo{
+
+.nav-logo {
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav-logo img {
@@ -58,13 +63,13 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   padding: 8px 12px;
+  transition: all 0.3s ease;
 }
 
 .nav-menu a:hover {
   background-color: black;
   color: white;
   border-radius: 7px;
-
 }
 
 .nav-menu a.nav-link-active {
@@ -74,10 +79,33 @@ body {
 }
 
 .more-btn {
-  color: red;
+  color: black;
   font-weight: bold;
   cursor: pointer;
   padding: 8px 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.more-btn:hover,
+.more-btn.nav-link-active {
+  background-color: black;
+  color: white;
+  border-radius: 7px;
+}
+
+.more-btn .mobile-arrow {
+  display: none;
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.more-btn.more-open .mobile-arrow {
+  transform: rotate(180deg);
 }
 
 .nav-submenu-container {
@@ -96,6 +124,10 @@ body {
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1001;
 }
 
 .nav-submenu-container:hover .submenu {
@@ -107,6 +139,15 @@ body {
 .submenu a {
   display: block;
   color: black;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.submenu a:last-child {
+  border-bottom: none;
 }
 
 .submenu a:hover {
@@ -115,56 +156,146 @@ body {
   color: white;
 }
 
+.submenu a.nav-link-active {
+  background: black;
+  color: white;
+  border-radius: 0;
+  padding-left: 20px;
+}
+
 .hamburger {
   display: none;
   font-size: 26px;
   cursor: pointer;
+  padding: 5px;
+  z-index: 1002;
 }
 
-@media (max-width: 768px) {
 
+
+@media (max-width: 768px) {
   .hamburger {
     display: block;
+    font-size: 24px;
+    cursor: pointer;
   }
 
   .nav-menu {
     position: fixed;
     top: 70px;
-    right: -50%;
-    width: 50%;
-    height: 100vh;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: calc(100vh - 70px);
     background: white;
     flex-direction: column;
     padding: 20px;
     transition: right 0.3s ease;
     overflow-y: auto;
-  }
-
-  .nav-logo img {
-    height: 40px;
-    width: 100px;
+    z-index: 1001;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   }
 
   .nav-menu.mobile-open {
     right: 0;
-    width: 250px;
   }
 
   .nav-menu a,
   .more-btn,
   .nav-submenu-container {
     width: 100%;
+    text-align: left;
   }
 
   .nav-menu a,
   .more-btn {
-    padding: 14px 0;
+    padding: 14px 10px;
+    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+  }
+
+  .more-btn {
+    display: flex;
+    align-items: center;
+  }
+
+  .more-btn .mobile-arrow {
+    display: inline-block;
   }
 
   .nav-menu a.nav-link-active {
     background: #333;
     color: white;
-    padding-left: 10px;
+    padding-left: 15px;
   }
 
+  .nav-submenu-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .submenu {
+    position: static;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    transform: none;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #f9f9f9;
+    border-radius: 0;
+    display: block;
+  }
+
+  .submenu.show-submenu {
+    opacity: 1;
+    visibility: visible;
+    max-height: 1000px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .submenu a {
+    padding: 12px 10px 12px 25px;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+  }
+
+  .submenu a.nav-link-active {
+    background: #333;
+    color: white;
+    padding-left: 30px;
+  }
+
+  .more-btn.nav-link-active {
+    background: #333;
+    color: white;
+    padding-left: 15px;
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+  }
+
+  .nav-menu.mobile-open + .menu-overlay {
+    display: block;
+  }
+}
+
+body.menu-open {
+  overflow: hidden;
 }

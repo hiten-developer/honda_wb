@@ -1,7 +1,20 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
 
-import bikesData from "../data/bikesData";
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { getAllBikes } from "../services/api";
+
 import {
   FaFacebookF,
   FaInstagram,
@@ -11,7 +24,21 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
-  const footerBikes = bikesData.slice(0, 6);
+  const [footerBikes, setFooterBikes] = useState([]);
+
+  useEffect(() => {
+    const fetchFooterBikes = async () => {
+      try {
+        const bikes = await getAllBikes();
+        setFooterBikes(bikes.slice(0, 6));
+      } catch (error) {
+        console.error(error);
+        setFooterBikes([]);
+      }
+    };
+
+    fetchFooterBikes();
+  }, []);
 
   return (
     <footer className="honda-footer">
@@ -23,33 +50,25 @@ const Footer = () => {
             <h3 className="footer-column-title">HONDA BIKES</h3>
             <ul className="footer-bikes-list">
               {footerBikes.map((bike) => (
-                <li key={bike.id}>
-                  <a href={bike.name} className="bike-link">
-                    {bike.name}
-                  </a>
+                <li key={bike._id}>
+                  <NavLink
+                    to={`/bike/${bike._id}`}
+                    className="bike-link"
+                  >
+                    {bike.model_name || "hiten"}
+                  </NavLink>
                 </li>
               ))}
+
               <li>
-                <a href="/bikes" className="more-link">
+                <NavLink to="/bikes" className="more-link">
                   More ...
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>
 
           <div className="footer-column">
-            <h3 className="footer-column-title">OUTLETS</h3>
-            <ul className="footer-links">
-              <li>
-                <a href="/showroom">Showroom</a>
-              </li>
-              <li>
-                <a href="/workshops">Workshops</a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="footer-columns">
             <h3 className="footer-column-title">Quick Links</h3>
             <ul className="footer-links">
               <NavLink to="/">Home</NavLink>
@@ -65,10 +84,10 @@ const Footer = () => {
             <h3 className="footer-column-title">ABOUT US</h3>
             <ul className="footer-links">
               <li>
-                <a href="/gallery">Gallery</a>
+                <NavLink to="/gallery">Gallery</NavLink>
               </li>
               <li>
-                <a href="/contact">Contact Us</a>
+                <NavLink to="/contact">Contact Us</NavLink>
               </li>
             </ul>
           </div>
@@ -79,7 +98,6 @@ const Footer = () => {
               <a href="#" className="social-link">
                 <FaFacebookF />
               </a>
-
               <a href="#" className="social-link">
                 <FaInstagram />
               </a>
@@ -105,7 +123,9 @@ const Footer = () => {
           <div className="copyright-section">
             <p className="copyright-text">
               Powered by{" "}
-              <span className="company-name">Universal Auto Products</span>
+              <span className="company-name">
+                Universal Auto Products
+              </span>
             </p>
             <p className="copyright-year">
               © 2025 Universal Honda. All rights reserved.
