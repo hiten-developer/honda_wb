@@ -31,9 +31,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { getAllBikes, API_BASE_URL } from "../../services/api";
+import PurchaseFormModal from "../PurchaseModel/PurchaseFormModal";
 import "../../styles/BikeDetails/BikeDetails.css";
 
 const BikeDetails = () => {
@@ -46,6 +60,8 @@ const BikeDetails = () => {
   const [activeSection, setActiveSection] = useState("overview");
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const [showPurchaseForm, setShowPurchaseForm] = useState(false);
 
   useEffect(() => {
     const fetchBike = async () => {
@@ -214,7 +230,12 @@ const BikeDetails = () => {
           </div>
         </div>
         <div className="get-bike-top">
-          <button className="get-bike-btn">Get This Bike</button>
+          <button 
+            className="get-bike-btn"
+            onClick={() => setShowPurchaseForm(true)}
+          >
+            Get This Bike
+          </button>
         </div>
       </div>
 
@@ -521,7 +542,10 @@ const BikeDetails = () => {
                   </div>
 
                   <div className="price-cta">
-                    <button className="get-bike-btn large">
+                    <button 
+                      className="get-bike-btn large"
+                      onClick={() => setShowPurchaseForm(true)}
+                    >
                       Get This Bike Now
                     </button>
                   </div>
@@ -529,7 +553,12 @@ const BikeDetails = () => {
               ) : (
                 <div className="no-price-info">
                   <p>Price information is not available for this bike.</p>
-                  <button className="contact-btn">Contact for Price</button>
+                  <button 
+                    className="contact-btn"
+                    onClick={() => setShowPurchaseForm(true)}
+                  >
+                    Contact for Price
+                  </button>
                 </div>
               )}
             </div>
@@ -595,8 +624,13 @@ const BikeDetails = () => {
           </NavLink>
         </div>
       </div>
+
+      <PurchaseFormModal
+        bikeName={bike.name}
+        show={showPurchaseForm}
+        onClose={() => setShowPurchaseForm(false)}
+      />
     </div>
-    
   );
 };
 

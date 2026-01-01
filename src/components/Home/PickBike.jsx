@@ -1,6 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getAllBikes, getBikeImages, API_BASE_URL } from "../../services/api";
+import PurchaseFormModal from "../PurchaseModel/PurchaseFormModal";
 import "../../styles/Home/pickbike.css";
 
 const PickBike = () => {
@@ -10,12 +39,6 @@ const PickBike = () => {
   const [loading, setLoading] = useState(true);
 
   const [showPurchaseForm, setShowPurchaseForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    city: "",
-  });
-  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,26 +86,6 @@ const PickBike = () => {
   const handleSelectBike = (bike) => {
     setSelectedBike(bike);
     setDropdownOpen(false);
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handlePurchaseSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.phone || !formData.city) {
-      alert("Please fill all details");
-      return;
-    }
-
-    setPurchaseSuccess(true);
-    setTimeout(() => {
-      setShowPurchaseForm(false);
-      setPurchaseSuccess(false);
-      setFormData({ name: "", phone: "", city: "" });
-    }, 2000);
   };
 
   if (loading || !selectedBike) {
@@ -174,59 +177,11 @@ const PickBike = () => {
         </div>
       </div>
 
-      {/* -------- PURCHASE MODAL -------- */}
-      {showPurchaseForm && (
-        <div className="purchase-overlay">
-          <div className="purchase-modal">
-            {!purchaseSuccess ? (
-              <>
-                <h3>Purchase {selectedBike.name}</h3>
-                <form onSubmit={handlePurchaseSubmit}>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Mobile Number"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                  <input
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                  />
-
-                  <div className="modal-buttons">
-                    <button type="submit" className="btn-price">
-                      Confirm Purchase
-                    </button>
-                    <button
-                      type="button"
-                      className="btn-details"
-                      onClick={() => setShowPurchaseForm(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </>
-            ) : (
-              <div className="success-box">
-                <h3>🎉 Purchase Successful!</h3>
-                <p>Our team will contact you shortly.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <PurchaseFormModal
+        bikeName={selectedBike.name}
+        show={showPurchaseForm}
+        onClose={() => setShowPurchaseForm(false)}
+      />
     </section>
   );
 };
