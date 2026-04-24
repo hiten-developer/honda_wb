@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://wft8qmjb-4000.inc1.devtunnels.ms";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAllBikes = async () => {
   const res = await axios.get(`${API_BASE_URL}/bikes`);

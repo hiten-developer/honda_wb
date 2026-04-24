@@ -1,17 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import "../styles/nav.css";
@@ -22,7 +8,7 @@ const Navbar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  
+
   const submenuRef = useRef(null);
   const moreButtonRef = useRef(null);
 
@@ -36,14 +22,14 @@ const Navbar = () => {
   ];
 
   const isMoreActive = submenuItems.some(
-    (item) => item.link === location.pathname
+    (item) => item.link === location.pathname,
   );
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
       setIsVisible(
-        !(currentScrollPos > prevScrollPos && currentScrollPos > 70)
+        !(currentScrollPos > prevScrollPos && currentScrollPos > 70),
       );
       setPrevScrollPos(currentScrollPos);
     };
@@ -54,26 +40,32 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuOpen && !event.target.closest('.nav-menu') && !event.target.closest('.hamburger')) {
+      if (
+        menuOpen &&
+        !event.target.closest(".nav-menu") &&
+        !event.target.closest(".hamburger")
+      ) {
         closeMenu();
       }
-      
+
       if (moreOpen) {
-        const isMoreButton = moreButtonRef.current && moreButtonRef.current.contains(event.target);
-        const isSubmenu = submenuRef.current && submenuRef.current.contains(event.target);
-        
+        const isMoreButton =
+          moreButtonRef.current && moreButtonRef.current.contains(event.target);
+        const isSubmenu =
+          submenuRef.current && submenuRef.current.contains(event.target);
+
         if (!isMoreButton && !isSubmenu) {
           setMoreOpen(false);
         }
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-    
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [menuOpen, moreOpen]);
 
@@ -181,8 +173,8 @@ const Navbar = () => {
               Contact Us
             </NavLink>
 
-            <div 
-              className="nav-submenu-container" 
+            <div
+              className="nav-submenu-container"
               ref={submenuRef}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -198,11 +190,11 @@ const Navbar = () => {
 
               <div className={`submenu ${moreOpen ? "show-submenu" : ""}`}>
                 {submenuItems.map((item, index) => (
-                  <NavLink 
-                    key={index} 
-                    to={item.link} 
+                  <NavLink
+                    key={index}
+                    to={item.link}
                     onClick={handleSubmenuClick}
-                    className={({ isActive }) => 
+                    className={({ isActive }) =>
                       isActive ? "nav-link-active" : ""
                     }
                   >
